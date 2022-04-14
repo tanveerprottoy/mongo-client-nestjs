@@ -38,7 +38,7 @@ async function insertData() {
 async function bootstrap() {
     await DbClientInstance.init(
         "mongodb://localhost:27017", // "mongodb://127.0.0.1:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
-        "mongo_nest"
+        "mongoNestDemo"
     );
     // await createCollection();
     await insertData();
