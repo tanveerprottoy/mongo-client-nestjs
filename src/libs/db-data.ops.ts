@@ -142,6 +142,25 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
+    findAll<T>(
+        name: string
+    ): FindCursor<WithId<T>> | Error {
+        try {
+            const cursor = DbClientInstance.db.collection<T>(
+                name
+            ).find();
+            console.log(cursor);
+            return cursor;
+        }
+        catch(e) {
+            console.error(e);
+            return e;
+        }
+    }
+
+    /**
+     * @param name - the collection name.
+     */
     async deleteOne<T>(
         name: string,
         filter: Filter<T>,

@@ -12,9 +12,13 @@ class DbClient {
         }
     }
 
+    /**
+     * @param uri - mongodb uri.
+     * @param name - the db name.
+     */
     async init(
-        uri: string, // db uri "mongodb://127.0.0.1:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false"
-        name: string // db name
+        uri: string,
+        name: string
     ) {
         try {
             this.client = new MongoClient(uri);
