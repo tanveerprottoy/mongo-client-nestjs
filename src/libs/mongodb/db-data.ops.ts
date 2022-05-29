@@ -1,4 +1,4 @@
-import { DeleteOptions, DeleteResult, Document, Filter, FindCursor, FindOptions, InsertManyResult, InsertOneResult, OptionalUnlessRequiredId, UpdateFilter, UpdateResult, WithId } from "mongodb";
+import { BulkWriteOptions, DeleteOptions, DeleteResult, Document, Filter, FindCursor, FindOptions, InsertManyResult, InsertOneOptions, InsertOneResult, OptionalUnlessRequiredId, UpdateFilter, UpdateOptions, UpdateResult, WithId } from "mongodb";
 import { DbClientInstance } from "./db.client";
 
 class DbDataOps {
@@ -16,14 +16,24 @@ class DbDataOps {
      */
     async insertOne<T>(
         name: string,
-        doc: OptionalUnlessRequiredId<T>
+        doc: OptionalUnlessRequiredId<T>,
+        options?: InsertOneOptions
     ): Promise<InsertOneResult<T> | Error> {
         try {
-            return await DbClientInstance.db.collection<T>(
+            const collection = DbClientInstance.db.collection<T>(
                 name
-            ).insertOne(
-                doc
             );
+            if(!options) {
+                return collection.insertOne(
+                    doc
+                );
+            }
+            else {
+                return collection.insertOne(
+                    doc,
+                    options
+                );
+            }
         }
         catch(e) {
             console.error(e);
@@ -36,14 +46,24 @@ class DbDataOps {
      */
     async insertMany<T>(
         name: string,
-        docs: OptionalUnlessRequiredId<T>[]
+        docs: OptionalUnlessRequiredId<T>[],
+        options?: BulkWriteOptions
     ): Promise<InsertManyResult<T> | Error> {
         try {
-            return await DbClientInstance.db.collection<T>(
+            const collection = DbClientInstance.db.collection<T>(
                 name
-            ).insertMany(
-                docs
             );
+            if(!options) {
+                return collection.insertMany(
+                    docs
+                );
+            }
+            else {
+                return collection.insertMany(
+                    docs,
+                    options
+                );
+            }
         }
         catch(e) {
             console.error(e);
@@ -54,18 +74,15 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async updateOne<T>(
-        name: string,
-        filter: Filter<T>,
-        update: UpdateFilter<T> | Partial<T>,
-    ): Promise<UpdateResult | Error> {
+    findAll<T>(
+        name: string
+    ): FindCursor<WithId<T>> | Error {
         try {
-            return await DbClientInstance.db.collection<T>(
+            const cursor = DbClientInstance.db.collection<T>(
                 name
-            ).updateOne(
-                filter,
-                update
-            );
+            ).find();
+            console.log(cursor);
+            return cursor;
         }
         catch(e) {
             console.error(e);
@@ -76,17 +93,17 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async updateMany<T>(
+    find<T>(
         name: string,
-        filter: Filter<T>,
-        update: UpdateFilter<T>,
-    ): Promise<UpdateResult | Document | Error> {
+        filter?: Filter<T>,
+        options?: FindOptions
+    ): FindCursor<WithId<T>> | Error {
         try {
-            return await DbClientInstance.db.collection<T>(
+            return DbClientInstance.db.collection<T>(
                 name
-            ).updateMany(
+            ).find(
                 filter,
-                update
+                options
             );
         }
         catch(e) {
@@ -120,18 +137,29 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    find<T>(
+    async updateOne<T>(
         name: string,
-        filter?: Filter<T>,
-        options?: FindOptions
-    ): FindCursor<WithId<T>> | Error {
+        filter: Filter<T>,
+        update: UpdateFilter<T> | Partial<T>,
+        options?: UpdateOptions
+    ): Promise<UpdateResult | Error> {
         try {
-            return DbClientInstance.db.collection<T>(
+            const collection = DbClientInstance.db.collection<T>(
                 name
-            ).find(
-                filter,
-                options
             );
+            if(!options) {
+                return collection.updateOne(
+                    filter,
+                    update
+                );
+            }
+            else {
+                return collection.updateOne(
+                    filter,
+                    update,
+                    options
+                );
+            }
         }
         catch(e) {
             console.error(e);
@@ -142,15 +170,29 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    findAll<T>(
-        name: string
-    ): FindCursor<WithId<T>> | Error {
+    async updateMany<T>(
+        name: string,
+        filter: Filter<T>,
+        update: UpdateFilter<T>,
+        options?: UpdateOptions
+    ): Promise<UpdateResult | Document | Error> {
         try {
-            const cursor = DbClientInstance.db.collection<T>(
+            const collection = DbClientInstance.db.collection<T>(
                 name
-            ).find();
-            console.log(cursor);
-            return cursor;
+            );
+            if(!options) {
+                return collection.updateMany(
+                    filter,
+                    update
+                );
+            }
+            else {
+                return collection.updateMany(
+                    filter,
+                    update,
+                    options
+                );
+            }
         }
         catch(e) {
             console.error(e);
