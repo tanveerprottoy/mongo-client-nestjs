@@ -2,9 +2,8 @@ import { VersioningType } from "@nestjs/common";
 import { NestFactory } from '@nestjs/core';
 import { Constants } from "./constants";
 import { AppModule } from './app.module';
-import { DbControlOpsInstance } from "./libs/db-control.ops";
-import { DbDataOpsInstance } from "./libs/db-data.ops";
-import { DbClientInstance } from "./libs/db.client";
+import { DbControlOpsInstance } from "./libs/mongodb/db-control.ops";
+import { DbClientInstance, DbDataOpsInstance } from "./libs/mongodb";
 
 async function createCollection() {
     DbControlOpsInstance.createCollection(

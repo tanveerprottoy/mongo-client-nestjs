@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FindCursor, WithId } from "mongodb";
 import { Constants } from "./constants";
-import { DbDataOpsInstance } from "./libs/db-data.ops";
+import { DbDataOpsInstance } from "./libs/mongodb";
 
 @Injectable()
 export class AppService {
