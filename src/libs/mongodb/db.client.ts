@@ -31,10 +31,7 @@ class DbClient {
         }
         catch(e) {
             console.error(e);
-        }
-        finally {
-            // Ensures that the client will close when you finish/error
-            // await this.mongoClient.close();
+            this.close();
         }
     }
 

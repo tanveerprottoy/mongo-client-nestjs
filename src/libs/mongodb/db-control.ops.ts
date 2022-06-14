@@ -1,4 +1,4 @@
-import { Collection, CollectionInfo, CreateCollectionOptions, Document, IndexSpecification, ListCollectionsCursor, ListCollectionsOptions } from "mongodb";
+import { Collection, CollectionInfo, CreateCollectionOptions, Document, IndexSpecification, ListCollectionsCursor, ListCollectionsOptions, ListDatabasesResult } from "mongodb";
 import { DbClientInstance } from "./db.client";
 
 class DbControlOps {
@@ -8,6 +8,16 @@ class DbControlOps {
         console.log("DbControlOps init");
         if(DbControlOps.instance) {
             throw new Error("Error - already initialized");
+        }
+    }
+
+    async listDatabases(): Promise<ListDatabasesResult | Error> {
+        try {
+            return await DbClientInstance.db.admin().listDatabases();
+        }
+        catch(e) {
+            console.error(e);
+            return e;
         }
     }
 
@@ -73,6 +83,23 @@ class DbControlOps {
     ): Promise<boolean | Error> {
         try {
             return await DbClientInstance.db.dropCollection(
+                name
+            );
+        }
+        catch(e) {
+            console.error(e);
+            return e;
+        }
+    }
+
+    /**
+     * @param name - the collection name.
+     */
+    async validateCollection(
+        name: string
+    ): Promise<Document | Error> {
+        try {
+            return await DbClientInstance.db.admin().validateCollection(
                 name
             );
         }
