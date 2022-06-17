@@ -9,7 +9,7 @@ export class AppService {
     async getData() {
         const cursor = DbDataOpsInstance.findAll<any>(
             Constants.COLLECTION_NAME
-        ) as FindCursor<WithId<any>> ;
+        ) as FindCursor<WithId<any>>;
         // Execute the each command, triggers for each document
         cursor.forEach((doc) => {
             if(doc == null) {
@@ -27,6 +27,39 @@ export class AppService {
         stream.on("end", function () {
             console.log("All done!");
         });
+        return cursor.toArray();
+    }
+
+    async getDataByYearMonth(
+        year: number,
+        month: number
+    ) {
+        const cursor = DbDataOpsInstance.find<any>(
+            Constants.COLLECTION_NAME,
+            {
+                $expr: {
+                    $and: [
+                        {
+                            $eq: [
+                                {
+                                    $year: "$createdAt"
+                                },
+                                year
+                            ]
+                        },
+                        {
+                            $eq:
+                                [
+                                    {
+                                        $month: "$createdAt"
+                                    },
+                                    month
+                                ]
+                        }
+                    ]
+                }
+            }
+        ) as FindCursor<WithId<any>>;
         return cursor.toArray();
     }
 }
