@@ -1,4 +1,5 @@
 import { Collection, CollectionInfo, CreateCollectionOptions, Document, IndexSpecification, ListCollectionsCursor, ListCollectionsOptions, ListDatabasesResult } from "mongodb";
+import { ErrorUtils } from "../../utils/error.utils";
 import { DbClientInstance } from "./db.client";
 
 class DbControlOps {
@@ -7,7 +8,9 @@ class DbControlOps {
     private constructor() {
         console.log("DbControlOps init");
         if(DbControlOps.instance) {
-            throw new Error("Error - already initialized");
+            ErrorUtils.throwError(
+                new Error("Error - already initialized")
+            );
         }
     }
 
@@ -16,8 +19,7 @@ class DbControlOps {
             return await DbClientInstance.db.admin().listDatabases();
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -35,8 +37,7 @@ class DbControlOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -54,8 +55,7 @@ class DbControlOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -70,8 +70,7 @@ class DbControlOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -87,8 +86,7 @@ class DbControlOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -104,8 +102,7 @@ class DbControlOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 

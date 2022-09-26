@@ -1,4 +1,5 @@
 import { BulkWriteOptions, DeleteOptions, DeleteResult, Document, Filter, FindCursor, FindOptions, InsertManyResult, InsertOneOptions, InsertOneResult, OptionalUnlessRequiredId, UpdateFilter, UpdateOptions, UpdateResult, WithId } from "mongodb";
+import { ErrorUtils } from "../../utils/error.utils";
 import { DbClientInstance } from "./db.client";
 
 class DbDataOps {
@@ -7,7 +8,9 @@ class DbDataOps {
     private constructor() {
         console.log("DbDataOps init");
         if(DbDataOps.instance) {
-            throw new Error("Error - already initialized");
+            ErrorUtils.throwError(
+                new Error("Error - already initialized")
+            );
         }
     }
 
@@ -36,8 +39,7 @@ class DbDataOps {
             }
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -66,8 +68,7 @@ class DbDataOps {
             }
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -85,8 +86,7 @@ class DbDataOps {
             return cursor;
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -107,8 +107,7 @@ class DbDataOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -129,8 +128,7 @@ class DbDataOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -162,8 +160,7 @@ class DbDataOps {
             }
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -195,8 +192,7 @@ class DbDataOps {
             }
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -217,8 +213,7 @@ class DbDataOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 
@@ -239,8 +234,7 @@ class DbDataOps {
             );
         }
         catch(e) {
-            console.error(e);
-            return e;
+            ErrorUtils.throwError(e);
         }
     }
 

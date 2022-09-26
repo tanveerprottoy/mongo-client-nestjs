@@ -1,4 +1,5 @@
 import { Db, MongoClient } from "mongodb";
+import { ErrorUtils } from "../../utils/error.utils";
 
 class DbClient {
     private static instance: DbClient;
@@ -8,7 +9,9 @@ class DbClient {
     private constructor() {
         console.log("DbClient init");
         if(DbClient.instance) {
-            throw new Error("Error - already initialized");
+            ErrorUtils.throwError(
+                new Error("Error - already initialized")
+            );
         }
     }
 
@@ -27,7 +30,7 @@ class DbClient {
             this.db = this.client.db(name);
             // Establish and verify connection
             await this.db.command({ ping: 1 });
-            console.log("Connected successfully to server");
+            console.log("Connected successfully to db");
         }
         catch(e) {
             console.error(e);
