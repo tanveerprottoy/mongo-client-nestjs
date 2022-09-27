@@ -33,8 +33,8 @@ class DbClient {
             console.log("Connected successfully to db");
         }
         catch(e) {
-            console.error(e);
             this.close();
+            ErrorUtils.throwError(e);
         }
     }
 
