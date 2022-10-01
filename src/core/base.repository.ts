@@ -1,5 +1,28 @@
 export abstract class BaseRepository<T> {
 
+    abstract create(t: T): Promise<any>
+
+    abstract find(
+        filter?: object,
+        options?: object
+    ): Promise<any>
+
+    abstract findOne(
+        filter?: object,
+        options?: object
+    ): Promise<any>
+
+    abstract update(
+        filter: object,
+        update: object,
+        options?: object
+    ): Promise<any>
+
+    abstract deleteOne(
+        filter: object,
+        options?: object
+    ): Promise<any>
+
     async handleCursor(
         cursor: any
     ): Promise<any> {
@@ -26,25 +49,4 @@ export abstract class BaseRepository<T> {
             }
         });
     }
-
-    abstract create(t: T): Promise<any>
-
-    abstract find(
-        filter?: object,
-        options?: object
-    ): Promise<any>
-
-    abstract findOne(
-        filter?: object,
-        options?: object
-    ): Promise<any>
-
-    abstract update(
-        filter: any,
-        update: any
-    ): Promise<any>
-
-    abstract deleteOne(
-        filter: any,
-    ): Promise<any>
 }
