@@ -21,7 +21,7 @@ class DbDataOps {
         name: string,
         doc: OptionalUnlessRequiredId<T>,
         options?: InsertOneOptions
-    ): Promise<InsertOneResult<T>> {
+    ): Promise<InsertOneResult<T> | undefined> {
         try {
             const collection = DbClientInstance.db.collection<T>(
                 name
@@ -50,7 +50,7 @@ class DbDataOps {
         name: string,
         docs: OptionalUnlessRequiredId<T>[],
         options?: BulkWriteOptions
-    ): Promise<InsertManyResult<T>> {
+    ): Promise<InsertManyResult<T> | undefined> {
         try {
             const collection = DbClientInstance.db.collection<T>(
                 name
@@ -77,7 +77,7 @@ class DbDataOps {
      */
     findAll<T>(
         name: string
-    ): FindCursor<WithId<T>> {
+    ): FindCursor<WithId<T> | undefined> {
         try {
             const cursor = DbClientInstance.db.collection<T>(
                 name
@@ -97,7 +97,7 @@ class DbDataOps {
         name: string,
         filter?: Filter<T>,
         options?: FindOptions
-    ): FindCursor<WithId<T>> {
+    ): FindCursor<WithId<T> | undefined> {
         try {
             return DbClientInstance.db.collection<T>(
                 name
@@ -118,7 +118,7 @@ class DbDataOps {
         name: string,
         filter?: Filter<T>,
         options?: FindOptions
-    ): Promise<WithId<T> | null> {
+    ): Promise<WithId<T> | undefined> {
         try {
             return await DbClientInstance.db.collection<T>(
                 name
@@ -140,7 +140,7 @@ class DbDataOps {
         filter: Filter<T>,
         update: UpdateFilter<T> | Partial<T>,
         options?: UpdateOptions
-    ): Promise<UpdateResult> {
+    ): Promise<UpdateResult | undefined> {
         try {
             const collection = DbClientInstance.db.collection<T>(
                 name
@@ -172,7 +172,7 @@ class DbDataOps {
         filter: Filter<T>,
         update: UpdateFilter<T>,
         options?: UpdateOptions
-    ): Promise<UpdateResult | Document> {
+    ): Promise<UpdateResult | Document | undefined> {
         try {
             const collection = DbClientInstance.db.collection<T>(
                 name
@@ -203,7 +203,7 @@ class DbDataOps {
         name: string,
         filter: Filter<T>,
         options?: DeleteOptions
-    ): Promise<Promise<DeleteResult>> {
+    ): Promise<Promise<DeleteResult> | undefined> {
         try {
             return await DbClientInstance.db.collection<T>(
                 name
@@ -224,7 +224,7 @@ class DbDataOps {
         name: string,
         filter: Filter<T>,
         options?: DeleteOptions
-    ): Promise<Promise<DeleteResult>> {
+    ): Promise<Promise<DeleteResult> | undefined> {
         try {
             return await DbClientInstance.db.collection<T>(
                 name

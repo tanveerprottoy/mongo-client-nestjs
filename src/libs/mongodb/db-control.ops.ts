@@ -14,7 +14,7 @@ class DbControlOps {
         }
     }
 
-    async listDatabases(): Promise<ListDatabasesResult> {
+    async listDatabases(): Promise<ListDatabasesResult | undefined> {
         try {
             return await DbClientInstance.db.admin().listDatabases();
         }
@@ -29,7 +29,7 @@ class DbControlOps {
     async createCollection<T>(
         name: string,
         options?: CreateCollectionOptions
-    ): Promise<Collection<T>> {
+    ): Promise<Collection<T> | undefined> {
         try {
             return await DbClientInstance.db.createCollection<T>(
                 name,
@@ -47,7 +47,7 @@ class DbControlOps {
     async createIndex(
         name: string,
         indexSpec: IndexSpecification
-    ): Promise<string> {
+    ): Promise<string | undefined> {
         try {
             return await DbClientInstance.db.createIndex(
                 name,
@@ -62,7 +62,7 @@ class DbControlOps {
     listCollections(
         filter?: Document,
         options?: ListCollectionsOptions
-    ): ListCollectionsCursor<Pick<CollectionInfo, 'name' | 'type'>> {
+    ): ListCollectionsCursor<Pick<CollectionInfo, 'name' | 'type'> | undefined> {
         try {
             return DbClientInstance.db.listCollections(
                 filter,
@@ -79,7 +79,7 @@ class DbControlOps {
      */
     async dropCollection(
         name: string
-    ): Promise<boolean> {
+    ): Promise<boolean | undefined> {
         try {
             return await DbClientInstance.db.dropCollection(
                 name
@@ -95,7 +95,7 @@ class DbControlOps {
      */
     async validateCollection(
         name: string
-    ): Promise<Document> {
+    ): Promise<Document | undefined> {
         try {
             return await DbClientInstance.db.admin().validateCollection(
                 name
