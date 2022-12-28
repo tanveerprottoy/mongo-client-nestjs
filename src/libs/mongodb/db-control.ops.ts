@@ -26,7 +26,7 @@ class DbControlOps {
     /**
      * @param name - the collection name.
      */
-    async createCollection<T>(
+    async createCollection<T extends Document>(
         name: string,
         options?: CreateCollectionOptions
     ): Promise<Collection<T> | undefined> {
@@ -62,7 +62,7 @@ class DbControlOps {
     listCollections(
         filter?: Document,
         options?: ListCollectionsOptions
-    ): ListCollectionsCursor<Pick<CollectionInfo, 'name' | 'type'> | undefined> {
+    ): ListCollectionsCursor<Pick<CollectionInfo, 'name' | 'type'>> | undefined {
         try {
             return DbClientInstance.db.listCollections(
                 filter,

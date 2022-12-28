@@ -17,7 +17,7 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async insertOne<T>(
+    async insertOne<T extends Document>(
         name: string,
         doc: OptionalUnlessRequiredId<T>,
         options?: InsertOneOptions
@@ -46,7 +46,7 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async insertMany<T>(
+    async insertMany<T extends Document>(
         name: string,
         docs: OptionalUnlessRequiredId<T>[],
         options?: BulkWriteOptions
@@ -75,9 +75,9 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    findAll<T>(
+    findAll<T extends Document>(
         name: string
-    ): FindCursor<WithId<T> | undefined> {
+    ): FindCursor<WithId<T>> | undefined {
         try {
             const cursor = DbClientInstance.db.collection<T>(
                 name
@@ -93,11 +93,11 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    find<T>(
+    find<T extends Document>(
         name: string,
-        filter?: Filter<T>,
+        filter: Filter<T>,
         options?: FindOptions
-    ): FindCursor<WithId<T> | undefined> {
+    ): FindCursor<WithId<T>> | undefined {
         try {
             return DbClientInstance.db.collection<T>(
                 name
@@ -114,11 +114,11 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async findOne<T>(
+    async findOne<T extends Document>(
         name: string,
-        filter?: Filter<T>,
+        filter: Filter<T>,
         options?: FindOptions
-    ): Promise<WithId<T> | undefined> {
+    ): Promise<WithId<T> | null | undefined> {
         try {
             return await DbClientInstance.db.collection<T>(
                 name
@@ -135,7 +135,7 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async updateOne<T>(
+    async updateOne<T extends Document>(
         name: string,
         filter: Filter<T>,
         update: UpdateFilter<T> | Partial<T>,
@@ -167,7 +167,7 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async updateMany<T>(
+    async updateMany<T extends Document>(
         name: string,
         filter: Filter<T>,
         update: UpdateFilter<T>,
@@ -199,13 +199,13 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async deleteOne<T>(
+    async deleteOne<T extends Document>(
         name: string,
         filter: Filter<T>,
-        options?: DeleteOptions
-    ): Promise<Promise<DeleteResult> | undefined> {
+        options: DeleteOptions
+    ): Promise<Promise<DeleteResult> | void> {
         try {
-            return await DbClientInstance.db.collection<T>(
+            return DbClientInstance.db.collection<T>(
                 name
             ).deleteOne(
                 filter,
@@ -220,10 +220,10 @@ class DbDataOps {
     /**
      * @param name - the collection name.
      */
-    async deleteMany<T>(
+    async deleteMany<T extends Document>(
         name: string,
         filter: Filter<T>,
-        options?: DeleteOptions
+        options: DeleteOptions
     ): Promise<Promise<DeleteResult> | undefined> {
         try {
             return await DbClientInstance.db.collection<T>(
