@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FindCursor, WithId } from "mongodb";
 import { Constants } from "./constants";
 import { DbDataOpsInstance } from "./libs/mongodb";
+import DbUtils from "./libs/mongodb/db.utils";
 
 @Injectable()
 export class AppService {
@@ -17,16 +18,7 @@ export class AppService {
             }
             console.log("cursor.forEach", doc);
         });
-        const stream = cursor.stream();
-        stream.on("data", function (doc) {
-            console.log("stream.on", doc);
-        });
-        stream.on("error", function (err) {
-            console.log(err);
-        });
-        stream.on("end", function () {
-            console.log("All done!");
-        });
+        const docs = await DbUtils.streamCursorData(cursor);
         return cursor.toArray();
     }
 

@@ -14,17 +14,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async insertOne<T extends Document>(
-        name: string,
+        collectionName: string,
         doc: OptionalUnlessRequiredId<T>,
         options?: InsertOneOptions
     ): Promise<InsertOneResult<T>> {
         try {
             const collection = DbClientInstance.db.collection<T>(
-                name
+                collectionName
             );
             if(!options) {
                 return collection.insertOne(
@@ -43,17 +40,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async insertMany<T extends Document>(
-        name: string,
+        collectionName: string,
         docs: OptionalUnlessRequiredId<T>[],
         options?: BulkWriteOptions
     ): Promise<InsertManyResult<T>> {
         try {
             const collection = DbClientInstance.db.collection<T>(
-                name
+                collectionName
             );
             if(!options) {
                 return collection.insertMany(
@@ -72,15 +66,12 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     findAll<T extends Document>(
-        name: string
+        collectionName: string
     ): FindCursor<WithId<T>> {
         try {
             return DbClientInstance.db.collection<T>(
-                name
+                collectionName
             ).find();
         }
         catch(e) {
@@ -88,17 +79,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     find<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         options?: FindOptions
     ): FindCursor<WithId<T>> {
         try {
             return DbClientInstance.db.collection<T>(
-                name
+                collectionName
             ).find(
                 filter,
                 options
@@ -109,17 +97,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async findOne<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         options?: FindOptions
     ): Promise<WithId<T>> {
         try {
             return await DbClientInstance.db.collection<T>(
-                name
+                collectionName
             ).findOne(
                 filter,
                 options
@@ -130,18 +115,15 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async updateOne<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         update: UpdateFilter<T> | Partial<T>,
         options?: UpdateOptions
     ): Promise<UpdateResult> {
         try {
             const collection = DbClientInstance.db.collection<T>(
-                name
+                collectionName
             );
             if(!options) {
                 return collection.updateOne(
@@ -162,18 +144,15 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async updateMany<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         update: UpdateFilter<T>,
         options?: UpdateOptions
     ): Promise<UpdateResult | Document> {
         try {
             const collection = DbClientInstance.db.collection<T>(
-                name
+                collectionName
             );
             if(!options) {
                 return collection.updateMany(
@@ -194,17 +173,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async deleteOne<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         options: DeleteOptions
     ): Promise<DeleteResult> {
         try {
             return DbClientInstance.db.collection<T>(
-                name
+                collectionName
             ).deleteOne(
                 filter,
                 options
@@ -215,17 +191,14 @@ class DbDataOps {
         }
     }
 
-    /**
-     * @param name - the collection name.
-     */
     async deleteMany<T extends Document>(
-        name: string,
+        collectionName: string,
         filter: Filter<T>,
         options: DeleteOptions
     ): Promise<DeleteResult> {
         try {
             return await DbClientInstance.db.collection<T>(
-                name
+                collectionName
             ).deleteMany(
                 filter,
                 options
